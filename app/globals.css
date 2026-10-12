@@ -46,9 +46,11 @@ h3 {
   line-height: 1.15;
 }
 
-a {
-  color: var(--link);
-  text-underline-offset: 0.2em;
+@layer base {
+  a {
+    color: var(--link);
+    text-underline-offset: 0.2em;
+  }
 }
 
 :focus-visible {
@@ -144,4 +146,63 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Hartwell & Partners: editorial, serif-led, generous leading. */
+body {
+  font-size: 1.0625rem;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ampersand {
+  font-family: var(--font-heading), serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.8;
+  color: var(--accent);
+  user-select: none;
+}
+
+.prose-article p {
+  font-family: var(--font-heading), serif;
+  font-size: 1.2rem;
+  line-height: 1.75;
+  margin-top: 1.25em;
+  max-width: 66ch;
+}
+
+.prose-article p:first-child::first-letter {
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.85;
+  padding-right: 0.08em;
+  color: var(--accent);
+}
+
+.btn-navy {
+  display: inline-block;
+  padding: 0.8rem 1.4rem;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+.btn-navy:hover {
+  background: var(--accent);
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+footer .photo-credits {
+  color: inherit;
 }

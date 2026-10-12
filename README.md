@@ -6,21 +6,13 @@ A law firm advising businesses and private clients on contracts, disputes, prope
 
 ## Status
 
-In progress. The groundwork is done: brand colors and fonts, the contact form with Telegram delivery, metadata, tests and a Lighthouse check. The pages below are next.
+Live at https://hartwell-partners.vercel.app
 
-Pages:
+What is built:
 
-- [ ] Home
-- [ ] Practice areas
-- [ ] Team
-- [ ] Insights (3 articles)
-- [ ] Contact
-
-Features:
-
-- [ ] Consultation request form
-- [ ] Practice area filter
-- [ ] Insights blog with three articles
+- Home: practice areas with a business / private filter, a partner quote, people, latest insights and a consultation form
+- Insights (`/insights`) and three statically generated articles (`/insights/[slug]`)
+- Contact page (`/contact`)
 
 ## Design
 
@@ -74,11 +66,11 @@ Enquiries go to a Telegram chat. Copy `.env.example` to `.env.local` and fill in
 
 ## Deploying
 
-Import the repository in Vercel and add the two Telegram variables if the form should deliver leads. Update `url` in `content/site.ts` once the site has its final domain.
+Import the repository in Vercel and add the two Telegram variables if the form should deliver leads. If the domain changes, update `url` in `content/site.ts` and `tests/metadata.test.ts`.
 
 ## Credits
 
-Fonts are licensed under the SIL Open Font License; the license texts are in `app/fonts`. Photos will come from Unsplash and are credited in the site footer.
+Fonts are licensed under the SIL Open Font License; the license texts are in `app/fonts`. Photos are hotlinked from Unsplash and credited in the site footer.
 
 ## License
 
