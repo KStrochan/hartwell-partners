@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { practices, type Audience } from "@/content/firm";
 
 const FILTERS: { value: Audience | "all"; label: string }[] = [
@@ -29,8 +29,8 @@ export function PracticeAreas() {
         ))}
       </div>
       <ul className="grid gap-x-12 md:grid-cols-2" aria-live="polite">
-        {shown.map((p) => (
-          <li key={p.name} className="grid gap-2 border-t border-border py-6">
+        {shown.map((p, i) => (
+          <li key={`${filter}-${p.name}`} className="fade-up grid gap-2 border-t border-border py-6" style={{ "--d": `${i * 0.06}s` } as CSSProperties}>
             <h3 className="font-display text-2xl font-semibold">{p.name}</h3>
             <p className="text-muted">{p.text}</p>
           </li>

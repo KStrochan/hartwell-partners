@@ -5,6 +5,10 @@ import { submitLead } from "@/app/actions";
 import { LeadForm } from "@/components/LeadForm";
 import { InsightList } from "@/components/site/InsightList";
 import { PracticeAreas } from "@/components/site/PracticeAreas";
+import { Counter } from "@/components/anim/Counter";
+import { InkAmpersand } from "@/components/anim/InkAmpersand";
+import { QuoteReveal } from "@/components/anim/QuoteReveal";
+import { Reveal } from "@/components/anim/Reveal";
 import { facts, people, photos } from "@/content/firm";
 import { insights } from "@/content/insights";
 import { site } from "@/content/site";
@@ -19,9 +23,7 @@ export default function HomePage() {
   return (
     <main id="main">
       <section className="relative overflow-hidden border-b border-border">
-        <span aria-hidden="true" className="ampersand pointer-events-none absolute -right-10 -top-16 hidden text-[34rem] opacity-15 lg:block">
-          &amp;
-        </span>
+        <InkAmpersand className="pointer-events-none absolute -right-16 -top-10 hidden h-[36rem] w-auto opacity-20 lg:block" />
         <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:py-24">
           <div className="grid content-start gap-8">
             <h1 className="font-display text-5xl font-semibold leading-[1.05] sm:text-6xl">
@@ -40,15 +42,25 @@ export default function HomePage() {
               </Link>
             </div>
             <dl className="mt-4 grid max-w-lg grid-cols-3 border-t border-fg pt-5">
-              {facts.map(([label, value]) => (
-                <div key={label}>
-                  <dt className="text-sm text-muted">{label}</dt>
-                  <dd className="font-display text-3xl">{value}</dd>
-                </div>
-              ))}
+              {facts.map(([label, value]) => {
+                const n = Number.parseInt(value.replace(/\D/g, ""), 10);
+                const countable = label !== "Founded" && Number.isFinite(n);
+                return (
+                  <div key={label}>
+                    <dt className="text-sm text-muted">{label}</dt>
+                    <dd className="font-display text-3xl">
+                      {countable ? <Counter value={n} suffix={value.endsWith("+") ? "+" : ""} /> : value}
+                    </dd>
+                  </div>
+                );
+              })}
             </dl>
           </div>
           <figure className="grid content-start gap-3">
+            <div className="relative">
+            <svg aria-hidden="true" className="frame-line pointer-events-none absolute -inset-3 h-[calc(100%+1.5rem)] w-[calc(100%+1.5rem)] overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
+              <rect x="0.5" y="0.5" width="99" height="99" pathLength={1} fill="none" stroke="#7A1F2B" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            </svg>
             <Image
               src={unsplash(photos.library, 1200)}
               alt="Rows of leather-bound books on dark wooden shelves"
@@ -59,6 +71,7 @@ export default function HomePage() {
               fetchPriority="high"
               className="aspect-[4/5] h-auto w-full bg-border object-cover"
             />
+            </div>
             <figcaption className="text-sm italic text-muted">The firm&apos;s library, Chancery Street.</figcaption>
           </figure>
         </div>
@@ -77,6 +90,7 @@ export default function HomePage() {
 
       <section className="bg-surface">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:grid-cols-2 md:items-center">
+          <Reveal variant="curtain">
           <Image
             src={unsplash(photos.meeting, 1200)}
             alt="Lawyer and client reviewing documents at a table"
@@ -85,11 +99,12 @@ export default function HomePage() {
             sizes="(min-width: 768px) 520px, 100vw"
             className="aspect-[3/2] h-auto w-full bg-border object-cover"
           />
+          </Reveal>
           <blockquote className="grid gap-5">
-            <p className="font-display text-3xl leading-snug sm:text-4xl">
-              “Before we start, you get a letter with the steps, the likely cost of each, and the point at which it
-              may stop being worth it.”
-            </p>
+            <QuoteReveal
+              className="font-display text-3xl leading-snug sm:text-4xl"
+              text="“Before we start, you get a letter with the steps, the likely cost of each, and the point at which it may stop being worth it.”"
+            />
             <footer className="text-muted">Eleanor Hartwell, managing partner</footer>
           </blockquote>
         </div>
@@ -98,10 +113,13 @@ export default function HomePage() {
       <section id="people" className="mx-auto max-w-6xl scroll-mt-8 px-4 py-20 sm:px-6">
         <h2 className="font-display text-4xl font-semibold sm:text-5xl">People</h2>
         <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {people.map((person) => (
-            <li key={person.name} className="grid content-start gap-4">
-              <span aria-hidden="true" className="grid aspect-square w-24 place-items-center rounded-full bg-fg font-display text-3xl text-bg">
+          {people.map((person, index) => (
+            <Reveal as="li" variant="draw" delay={index * 0.15} key={person.name} className="initials-ring grid content-start gap-4">
+              <span aria-hidden="true" className="relative grid aspect-square w-24 place-items-center rounded-full bg-fg font-display text-3xl text-bg">
                 {initials(person.name)}
+                <svg viewBox="0 0 100 100" className="absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] -rotate-90">
+                  <circle className="draw" cx="50" cy="50" r="48" pathLength={1} fill="none" stroke="#7A1F2B" strokeWidth="1.5" />
+                </svg>
               </span>
               <div>
                 <h3 className="font-display text-2xl font-semibold">{person.name}</h3>
@@ -109,7 +127,7 @@ export default function HomePage() {
                 <p className="text-muted">{person.focus}</p>
                 <p className="text-sm text-muted">With the firm since {person.since}</p>
               </div>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </section>

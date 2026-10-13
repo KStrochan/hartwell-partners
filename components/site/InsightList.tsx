@@ -11,7 +11,7 @@ export function InsightList({ items }: { items: Insight[] }) {
               <time dateTime={item.date}>{formatDate(item.date)}</time>, {item.readingTime}
             </p>
             <h3 className="font-display text-2xl font-semibold leading-snug">
-              <Link href={`/insights/${item.slug}`} className="text-fg no-underline hover:underline">
+              <Link href={`/insights/${item.slug}`} className="insight-link text-fg no-underline">
                 {item.title}
               </Link>
             </h3>
